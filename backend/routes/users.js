@@ -1,7 +1,7 @@
+const verifyToken = require('../middleware/verifyAndAuthorize')
+
 const router = require('express').Router()
 
-router.get('/', (req, res) => {
-    res.send("hello")
-})
+router.put('/:id', verifyToken)
 
 module.exports = router

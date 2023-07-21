@@ -1,16 +1,16 @@
-const jwt = require("jsonwebtoken");
 const { userModel } = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
-const authMiddleware = require("../middleware/authMiddleware");
 
 const isAdmin = asyncHandler(async (req, res, next) => {
-  console.log("req.user::", req.user);
-  const { email } = req.user;
+  // console.log("req.user::", req.user);
+  const email = req.user;
   const adminUser = await userModel.findOne({ email });
-  if (adminUser.role !== "admin") {
-    throw new Error("You are not an Admin");
+
+  // Check if adminUser exists and its role is 'admin' (case-insensitive comparison)
+  if (adminUser && adminUser.role.toLowerCase() === "admin") {
+    next(); // If the user is an admin, proceed to the next middleware or route handler
   } else {
-    next()
+    throw new Error("You are not an Admin");
   }
 });
 

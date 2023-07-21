@@ -1,6 +1,6 @@
 const cryptoJs = require("crypto-js");
-const userModel = require("../models/userModel");
-const asyncHandler = require('express-async-handler');
+const { userModel } = require("../models/userModel");
+const asyncHandler = require("express-async-handler");
 const { generateToken } = require("../config/jwtToken");
 
 // @desc Update user
@@ -18,6 +18,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const newUser = new userModel({
+    id: id,
     firstname: firstname,
     lastname: lastname,
     email: email,
@@ -29,7 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   res
     .status(200)
-    .json({ success: true, message: "User Created Successfully..." });
+    .json({ success: true, newUser, message: "User Created Successfully..." });
 });
 
 module.exports = registerUser;

@@ -1,4 +1,5 @@
 const { generateToken } = require("../config/jwtToken");
+const { generateRefreshToken } = require("../config/refreshToken");
 const { userModel, isPasswordMatched } = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
 require("dotenv").config();
@@ -11,14 +12,25 @@ const login = asyncHandler(async (req, res) => {
   const findUser = await userModel.findOne({ email });
 
   if (findUser && (await findUser.isPasswordMatched(password))) {
+    const refreshToken = await generateRefreshToken(findUser.id);
+    const updateUser = await userModel.findByIdAndUpdate(
+      findUser.id,
+      {
+        refreshToken: refreshToken,
+      },
+      { new: true }
+    );
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      maxAge: 72 * 60 * 60 * 1000,
+    });
     res.status(200).json({
       success: true,
-      id: id,
+      id: findUser._id,
       firstname: findUser?.firstname,
       lastname: findUser?.lastname,
       email: findUser?.email,
       mobile: findUser?.mobile,
-      password: findUser?.password,
       token: generateToken(findUser?.id),
     });
   } else {

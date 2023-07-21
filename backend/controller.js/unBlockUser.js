@@ -1,13 +1,22 @@
 const asyncHandler = require("express-async-handler");
 const userModel = require("../models/userModel");
-
-const blockUser = asyncHandler(async (req, res) => {
+const validateMongoDbId = require("../utils/validateMongoDbId");
+// @desc Register user
+// @route POST /api/users/unblockuser
+// @access Public
+const UnblockUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  validateMongoDbId(id)
   try {
-    block = userModel.findByIdAndUpdate(id, { isBlocked: true }, { new: true });
+    block = await userModel.findByIdAndUpdate(
+      id,
+      { isBlocked: false },
+      { new: false }
+    );
+    res.json({ message: "User UnBlocked" });
   } catch (error) {
-    throw new Error(error)
+    throw new Error(error);
   }
 });
 
-module.exports = blockUser
+module.exports = UnblockUser;

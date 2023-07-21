@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const Address = require("../models/address");
+const Product = require("./productModel");
 const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
@@ -37,8 +39,11 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    address: [{ type: mongoose.Schema.Types.ObjectId, ref: Address }],
+    Address: [{ type: mongoose.Schema.Types.ObjectId, ref: Address }],
     wishList: [{ type: mongoose.Schema.Types.ObjectId, ref: Product }],
+    refreshToken: {
+      type: String,
+    }
   },
   { timestamps: true }
 );

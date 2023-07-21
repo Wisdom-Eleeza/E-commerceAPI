@@ -7,6 +7,7 @@ const { userModel } = require("../models/userModel");
 const updateAUser = asyncHandler(async (req, res) => {
   try {
     const { id } = req.user; // getting the id from the middleware in the req.user
+    validateMongoDbId(id)
     const updateAUser = await userModel.findByIdAndUpdate(
       id,
       {

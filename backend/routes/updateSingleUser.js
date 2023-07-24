@@ -1,8 +1,8 @@
 const express = require("express");
 const updateSingleUser = require("../controller.js/updateSingleUser");
-const isAdmin = require("../middleware/authIsAdminMiddleware");
+// const isAdmin = require("../middleware/authIsAdminMiddleware");
 const router = express.Router();
 
-router.put("/:id", isAdmin, updateSingleUser);
+router.put("/:id", updateSingleUser);
 
 module.exports = router;

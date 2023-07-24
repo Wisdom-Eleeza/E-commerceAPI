@@ -22,24 +22,25 @@ const productSchema = Schema(
       type: Array,
       required: true,
     },
-    categories: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
+    category: {
+      type: String,
+      required: true,
     },
     size: {
       type: String,
     },
     color: {
       type: String,
-      enum: ["Black", "Brown", "Red"],
+      required: true,
     },
     brand: {
       type: String,
-      enum: ["Apple", "Samsung", "Lenovo"],
+      required: true,
     },
     sold: {
       type: Number,
       default: 0,
+      // select: false, // hiding the sold item from the user
     },
     price: {
       type: Number,
@@ -48,16 +49,22 @@ const productSchema = Schema(
     quantity: {
       type: Number,
       required: true, 
+      // select: false,
     },
     ratings: [
       {
         star: Number, 
+        comment: String,
         postedby: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "User",
         },
       },
     ],
+    totalrating: {
+      type: String,
+      default: 0,
+    }
   },
   { timestamps: true }
 );

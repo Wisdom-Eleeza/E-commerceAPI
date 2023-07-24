@@ -1,11 +1,11 @@
 const { userModel } = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
-const validateMongoDbId = require("../utils/validateMongoDbId");
+// const validateMongoDbId = require("../utils/validateMongoDbId");
 
 const deleteAUser = asyncHandler(async (req, res) => {
   try {
     const { id } = req.params;
-    validateMongoDbId(id)
+    // validateMongoDbId(id)
     await userModel.findByIdAndDelete(id);
     res
       .status(200)

@@ -1,6 +1,4 @@
 const asyncHandler = require("express-async-handler");
-const Product = require("../models/productModel");
-// const validateMongoDbId = require("../utils/validateMongoDbId");
 
 
 // @desc Register user
@@ -10,7 +8,6 @@ const updateProduct = asyncHandler(async (req, res) => {
   try {
     const { _id } = req.user
     const password = req.body
-    // validateMongoDbId
     if(password){
         user.password = password
         const updatedPassword = await user.save()

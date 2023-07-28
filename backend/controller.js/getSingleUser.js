@@ -1,18 +1,22 @@
 const asyncHandler = require("express-async-handler");
 const { userModel } = require("../models/userModel");
-// const validateMongoDbId = require("../utils/validateMongoDbId");
 
-// @desc Register user
-// @route POST /api/users/single-user/:id
+// @desc Get a single user by ID
+// @route GET /api/users/single-user/:id
 // @access Public
-const getAUser = asyncHandler(async (req, res) => {
+const getAUser = asyncHandler(async (req, res, next) => {
   try {
     const { id } = req.params;
-    // validateMongoDbId(id)
     const getSingleUser = await userModel.findById(id);
-    res.status(200).json({ getSingleUser });
+
+    if (!getSingleUser) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    res.status(200).json({ success: true, getSingleUser });
   } catch (error) {
-    throw new Error(error);
+    // Pass the error to the error handling middleware using next()
+    next(error);
   }
 });
 

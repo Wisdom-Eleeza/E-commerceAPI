@@ -51,12 +51,4 @@ const allProduct = asyncHandler(async (req, res) => {
   }
 });
 
-//     const { id } = req.params
-//     const getAllProduct = await Product.create(id);
-//     res.json(getAllProduct);
-//   } catch (error) {
-//     throw new Error(error.message);
-//   }
-// });
-
 module.exports = allProduct;

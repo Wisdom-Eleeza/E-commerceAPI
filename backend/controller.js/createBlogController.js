@@ -1,9 +1,9 @@
 const Blog = require('../models/blogModel')
-const userModel = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
-const cloudinaryUploadImage = require('../utils/cloudinary')
-const fs = require('fs')
 
+// @desc Forgot Password
+// @route POST /api/users/blog/create-blog
+// @access Private (Only Admin can create a blog)
 const createBlog = asyncHandler(async (req, res) => {
     try {
         const newBlog = await Blog.create(req.body)

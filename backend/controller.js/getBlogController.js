@@ -1,14 +1,14 @@
 const Blog = require("../models/blogModel");
-const userModel = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
-const cloudinaryUploadImage = require("../utils/cloudinary");
-const fs = require("fs");
 
-const createBlog = asyncHandler(async (req, res) => {
+// @desc Forgot Password
+// @route POST /api/users/blog/get-a-blog
+// @access Private (Only Admin can create a blog)
+const getABlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
     const getBlog = await Blog.findById(id)
-      .populate("likes")
+      .populate("likes") // populating the blog table with the likes table and dislike table
       .populate("dislikes");
     const updateViews = await Blog.findByIdAndUpdate(
       id,
@@ -19,10 +19,17 @@ const createBlog = asyncHandler(async (req, res) => {
         new: true,
       }
     );
-    res.json(getBlog, updateViews)
+    res.json(getBlog, updateViews);
   } catch (error) {
     throw new Error(error);
   }
 });
 
-module.exports = createBlog;
+module.exports = getABlog;
+// the populate function in Mongoose is used to "populate" or "link"
+// data from referenced collections into the current collection.
+/*
+In this case, when you use populate("likes") and populate("dislikes"), 
+it means that the likes and dislikes fields in the Blog collection 
+are being populated with data from the referenced collections.
+*/

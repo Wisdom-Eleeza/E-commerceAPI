@@ -1,10 +1,10 @@
 const Blog = require("../models/blogModel");
-const userModel = require("../models/userModel");
 const asyncHandler = require("express-async-handler");
-const cloudinaryUploadImage = require("../utils/cloudinary");
-const fs = require("fs");
 
-const createBlog = asyncHandler(async (req, res) => {
+// @desc Forgot Password
+// @route POST /api/users/blog/get-all-blog
+// @access Private
+const getAllBlogs = asyncHandler(async (req, res) => {
   try {
     const getBlogs = await Blog.find()
     res.json(getBlogs)
@@ -13,4 +13,4 @@ const createBlog = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = createBlog;
+module.exports = getAllBlogs;

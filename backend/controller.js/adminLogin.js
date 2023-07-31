@@ -30,7 +30,7 @@ const adminLogin = asyncHandler(async (req, res) => {
       email: findAdmin.email,
       mobile: findAdmin.mobile,
       token: generateToken(findAdmin._id),
-    });
+    });     
   } else {
     throw new Error("Invalid Credetials");
   }

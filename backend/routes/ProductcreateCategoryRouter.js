@@ -1,9 +1,9 @@
 const express = require("express");
-const deleteBlog = require('../controller.js/deleteBlogController');
+const Category = require('../controller.js/ProductcreateCategoryController')
 const authMiddleware = require("../middleware/authMiddleware");
 const isAdmin = require("../middleware/authIsAdminMiddleware");
 const router = express.Router();
 
-router.put("/:id", authMiddleware, isAdmin, deleteBlog);
+router.post("/", authMiddleware, isAdmin, Category);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const express = require("express");
-const getBlog = require('../controller.js/getBlogController')
+const getBlog = require('../controller.js/getBlogController');
 const router = express.Router();
 
-router.put("/:id", getBlog);
+router.get("/:id", getBlog);
 
 module.exports = router;

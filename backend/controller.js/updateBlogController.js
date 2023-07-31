@@ -1,10 +1,10 @@
 const Blog = require('../models/blogModel')
-const userModel = require('../models/userModel')
 const asyncHandler = require('express-async-handler')
-const cloudinaryUploadImage = require('../utils/cloudinary')
-const fs = require('fs')
 
-const createBlog = asyncHandler(async (req, res) => {
+// @desc Forgot Password
+// @route PUT /api/users/blog/update-blog
+// @access Private (Only Admin can update a blog)
+const updateBlog = asyncHandler(async (req, res) => {
     const { id } = req.params
     try {
         const updateBlog = await Blog.findByIdAndUpdate(id, req.body, {
@@ -16,4 +16,4 @@ const createBlog = asyncHandler(async (req, res) => {
     }
 })
 
-module.exports = createBlog
+module.exports = updateBlog

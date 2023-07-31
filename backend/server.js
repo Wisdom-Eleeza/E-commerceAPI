@@ -5,7 +5,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 
-// ROUTES PATH
+// AUTH ROUTES
 const authRoute = require("./routes/authRoutes");
 const { errorHandler, notFound } = require("./middleware/errorHandler");
 const deleteSingleUser = require("./routes/deleteSingleUser");
@@ -15,6 +15,8 @@ const updateSingleUser = require("./routes/updateSingleUser");
 const blockUser = require("./routes/blockUser");
 const handleRefreshToken = require("./routes/handleRefreshToken");
 const logOut = require("./routes/logoutRoutes");
+
+// PRODUCTS ROUTES 
 const CreateProduct = require("./routes/getSingleProductRoutes");
 const getSingleProduct = require("./routes/getSingleProductRoutes");
 const allProduct = require("./routes/getAllProductRoutes");
@@ -26,7 +28,7 @@ const ratings = require('./routes/ratingRoutes');
 const forgotPassword = require("./routes/forgotPasswordRoutes");
 const resetPassword = require("./routes/resetPasswordRoutes");
 
-//BLOG
+//BLOG ROUTES
 const createBlog = require("./routes/createBlogRoutes");
 const updateBlog = require("./routes/updateBlogRoutes");
 const getBlog = require("./routes/getBlogRoutes");
@@ -35,6 +37,9 @@ const deleteBlog = require("./routes/deleteBlogRoutes");
 const likeTheBlog = require("./routes/likeTheBlogRoutes");
 const disLikeTheBlog = require("./routes/disLikeTheBlogRoutes");
 const uploadImages = require("./routes/uploadImageRoutes");
+
+//CATEGORY ROUTES
+const categoryRouter = require("./routes/ProductcreateCategoryRouter");
 
 require("dotenv").config();
 const port = process.env.PORT || 3001;
@@ -47,10 +52,11 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 
+// API TESTING ROUTES
 app.get("/api/users/status", (req, res) => {
   res.send("API is running");
 });
-// ROUTES
+// AUTH ROUTES
 app.use("/api/users", authRoute);
 app.use("/api/users", logOut);
 app.use("/api/users", getAllUsers);
@@ -62,14 +68,16 @@ app.use("/api/users/delete-single-user", deleteSingleUser);
 app.use("/api/users/password-update", updatePassword); 
 app.use("/api/users/forgot-password", forgotPassword); 
 app.use("/api/users/reset-password", resetPassword); 
+
 // PRODUCT ROUTES
 app.use("/api/users/product", CreateProduct);
 app.use("/api/users/product", getSingleProduct);
 app.use("/api/users/product", allProduct);
 app.use("/api/users/product/update-product", updateProduct);
 app.use("/api/users/product/delete-product", deleteProduct);
-app.use("/api/users/product/addToWishList", addToWishList);
+app.use("/api/users/product/add-to-wishlist", addToWishList);
 app.use("/api/users/product/ratings", ratings);
+
 // BLOG ROUTES
 app.use("/api/users/blog/create-blog", createBlog);
 app.use("/api/users/blog/update-blog", updateBlog);
@@ -79,6 +87,10 @@ app.use("/api/users/blog/delete-blog", deleteBlog);
 app.use("/api/users/blog/:blogId", likeTheBlog);
 app.use("/api/users/blog/:blogId", disLikeTheBlog);
 app.use("/api/users/blog/upload-image", uploadImages);
+
+// CATEGORY ROUTES
+app.use("/api/users/blog/category", categoryRouter);
+
 
 app.use(notFound);
 app.use(errorHandler);

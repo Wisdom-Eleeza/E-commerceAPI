@@ -52,6 +52,13 @@ const deleteBrand = require("../backend/routes/Brand/deleteBrandRoutes");
 const getBrand = require("../backend/routes/Brand/getBrandRoutes");
 const getAllBrand = require("../backend/routes/Brand/getAllBrandRoutes");
 
+// COUPON ROUTES
+const createCoupon = require("../backend/routes/Coupon/createCouponRoutes");
+const updateCoupon = require("../backend/routes/Coupon/updateCouponRoutes");
+const deleteCoupon = require("../backend/routes/Coupon/deleteCouponRoutes");
+const getCoupon = require("../backend/routes/Coupon/getCouponRoutes");
+const getAllCoupon = require("../backend/routes/Coupon/getAllCouponRoutes");
+
 require("dotenv").config();
 const port = process.env.PORT || 3001;
 
@@ -119,6 +126,13 @@ app.use("/api/users/brand/update-brand", updateBrand);
 app.use("/api/users/brand/delete-brand", deleteBrand);
 app.use("/api/users/brand/fetch-brand", getBrand);
 app.use("/api/users/brand/fetch-all-brand", getAllBrand);
+
+// COUPON ROUTES
+app.use("/api/users/coupon/create-coupon", createCoupon);
+app.use("/api/users/coupon/update-coupon", updateCoupon);
+app.use("/api/users/coupon/delete-coupon", deleteCoupon);
+app.use("/api/users/coupon/fetch-coupon", getCoupon);
+app.use("/api/users/coupon/fetch-all-coupon", getAllCoupon);
 
 app.use(notFound);
 app.use(errorHandler);

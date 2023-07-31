@@ -6,40 +6,51 @@ const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 
 // AUTH ROUTES
-const authRoute = require("./routes/authRoutes");
+const authRoute = require("./routes/Auth/authRoutes");
 const { errorHandler, notFound } = require("./middleware/errorHandler");
-const deleteSingleUser = require("./routes/deleteSingleUser");
-const getSingleUser = require("./routes/getSingleUser");
-const getAllUsers = require("./routes/getAllUsers");
-const updateSingleUser = require("./routes/updateSingleUser");
-const blockUser = require("./routes/blockUser");
-const handleRefreshToken = require("./routes/handleRefreshToken");
-const logOut = require("./routes/logoutRoutes");
+const deleteSingleUser = require("./routes/Auth/deleteSingleUser");
+const getSingleUser = require("./routes/Auth/getSingleUser");
+const getAllUsers = require("./routes/Auth/getAllUsers");
+const updateSingleUser = require("./routes/Auth/updateSingleUser");
+const blockUser = require("./routes/Auth/blockUser");
+const handleRefreshToken = require("./routes/Auth/handleRefreshToken");
+const logOut = require("./routes/Auth/logoutRoutes");
 
-// PRODUCTS ROUTES 
-const CreateProduct = require("./routes/getSingleProductRoutes");
-const getSingleProduct = require("./routes/getSingleProductRoutes");
-const allProduct = require("./routes/getAllProductRoutes");
-const updateProduct = require("./routes/updateProductRoutes");
-const deleteProduct = require("./routes/deleteProductRoutes");
-const updatePassword = require('./routes/updatePasswordRoutes');
-const addToWishList = require('./routes/addToWishListRoutes');
-const ratings = require('./routes/ratingRoutes');
-const forgotPassword = require("./routes/forgotPasswordRoutes");
-const resetPassword = require("./routes/resetPasswordRoutes");
+// PRODUCTS ROUTES
+const CreateProduct = require("./routes/Product/getSingleProductRoutes");
+const getSingleProduct = require("./routes/Product/getSingleProductRoutes");
+const allProduct = require("./routes/Product/getAllProductRoutes");
+const updateProduct = require("./routes/Product/updateProductRoutes");
+const deleteProduct = require("./routes/Product/deleteProductRoutes");
+const updatePassword = require("./routes/Auth/updatePasswordRoutes");
+const addToWishList = require("./routes/AddToWishList/addToWishListRoutes");
+const ratings = require("./routes/ProductCategory/ratingRoutes");
+const forgotPassword = require("./routes/Auth/forgotPasswordRoutes");
+const resetPassword = require("./routes/Auth/resetPasswordRoutes");
 
 //BLOG ROUTES
-const createBlog = require("./routes/createBlogRoutes");
-const updateBlog = require("./routes/updateBlogRoutes");
-const getBlog = require("./routes/getBlogRoutes");
-const getAllBlog = require("./routes/getAllBlogsRoutes");
-const deleteBlog = require("./routes/deleteBlogRoutes");
-const likeTheBlog = require("./routes/likeTheBlogRoutes");
-const disLikeTheBlog = require("./routes/disLikeTheBlogRoutes");
-const uploadImages = require("./routes/uploadImageRoutes");
+const createBlog = require("./routes/Blog/createBlogRoutes");
+const updateBlog = require("./routes/Blog/updateBlogRoutes");
+const getBlog = require("./routes/Blog/getBlogRoutes");
+const getAllBlog = require("./routes/Blog/getAllBlogsRoutes");
+const deleteBlog = require("./routes/Blog/deleteBlogRoutes");
+const likeTheBlog = require("./routes/Blog/likeTheBlogRoutes");
+const disLikeTheBlog = require("./routes/Blog/disLikeTheBlogRoutes");
+const uploadImages = require("./routes/Blog/uploadImageRoutes");
 
 //CATEGORY ROUTES
-const categoryRouter = require("./routes/ProductcreateCategoryRouter");
+const createProductCategory = require("./routes/ProductCategory/CreateProductCategoryRoutes");
+const updateProductCategory = require("./routes/ProductCategory/updateProductCategoryRoutes");
+const deleteProductCategory = require("./routes/ProductCategory/deleteProductCategoryRoutes");
+const getProductCategory = require("./routes/ProductCategory/getProductCategoryRoutes");
+const getAllProductCategory = require("./routes/ProductCategory/getAllProductCategoryRoutes");
+
+// BRAND ROUTES
+const createBrand = require("../backend/routes/Brand/createBrandRoutes");
+const updateBrand = require("../backend/routes/Brand/updateBrandRoutes");
+const deleteBrand = require("../backend/routes/Brand/deleteBrandRoutes");
+const getBrand = require("../backend/routes/Brand/getBrandRoutes");
+const getAllBrand = require("../backend/routes/Brand/getAllBrandRoutes");
 
 require("dotenv").config();
 const port = process.env.PORT || 3001;
@@ -65,9 +76,9 @@ app.use("/api/users/update-a-user", updateSingleUser);
 app.use("/api/users", blockUser);
 app.use("/api/users", handleRefreshToken);
 app.use("/api/users/delete-single-user", deleteSingleUser);
-app.use("/api/users/password-update", updatePassword); 
-app.use("/api/users/forgot-password", forgotPassword); 
-app.use("/api/users/reset-password", resetPassword); 
+app.use("/api/users/password-update", updatePassword);
+app.use("/api/users/forgot-password", forgotPassword);
+app.use("/api/users/reset-password", resetPassword);
 
 // PRODUCT ROUTES
 app.use("/api/users/product", CreateProduct);
@@ -88,9 +99,26 @@ app.use("/api/users/blog/:blogId", likeTheBlog);
 app.use("/api/users/blog/:blogId", disLikeTheBlog);
 app.use("/api/users/blog/upload-image", uploadImages);
 
-// CATEGORY ROUTES
-app.use("/api/users/blog/category", categoryRouter);
+// PRODUCT CATEGORY ROUTES
+app.use("/api/users/product/create-product-category", createProductCategory);
+app.use("/api/users/product/update-product-category", updateProductCategory);
+app.use("/api/users/product/delete-product-category", deleteProductCategory);
+app.use("/api/users/product/fetch-product-category", getProductCategory);
+app.use("/api/users/product/fetch-all-product-category", getAllProductCategory);
 
+// BLOG CATEGORY ROUTES
+app.use("/api/users/blog/create-blog-category", createProductCategory);
+app.use("/api/users/blog/update-blog-category", updateProductCategory);
+app.use("/api/users/blog/delete-blog-category", deleteProductCategory);
+app.use("/api/users/blog/fetch-blog-category", getProductCategory);
+app.use("/api/users/blog/fetch-all-blog-category", getAllProductCategory);
+
+// BRAND ROUTES
+app.use("/api/users/brand/create-brand", createBrand);
+app.use("/api/users/brand/update-brand", updateBrand);
+app.use("/api/users/brand/delete-brand", deleteBrand);
+app.use("/api/users/brand/fetch-brand", getBrand);
+app.use("/api/users/brand/fetch-all-brand", getAllBrand);
 
 app.use(notFound);
 app.use(errorHandler);

@@ -1,24 +1,22 @@
 const { generateToken } = require("../../config/jwtToken");
+const { generateRefreshToken } = require("../../config/refreshToken");
 const { userModel, isPasswordMatched } = require("../../models/userModel");
 const asyncHandler = require("express-async-handler");
 require("dotenv").config();
 
-// @desc Login user
-// @route POST /api/auth/login
-// @access private
+// Admin Login
 const adminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const findAdmin = await userModel.findOne({ email });
-  if (findAdmin.role !== "admin") throw new Error("Not Authorized");
+  if (findAdmin.role !== "admin") {
+    throw new Error("Not Authorized");
+  }
   if (findAdmin && (await findAdmin.isPasswordMatched(password))) {
+    // Generate and set refreshToken (you can implement the generateRefreshToken function)
     const refreshToken = await generateRefreshToken(findAdmin._id);
-    const updateUser = await userModel.findByIdAndUpdate(
-      findAdmin.id,
-      {
-        refreshToken: refreshToken,
-      },
-      { new: true }
-    );
+    findAdmin.refreshToken = refreshToken;
+    await findAdmin.save();
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 72 * 60 * 60 * 1000,
@@ -29,10 +27,11 @@ const adminLogin = asyncHandler(async (req, res) => {
       lastname: findAdmin.lastname,
       email: findAdmin.email,
       mobile: findAdmin.mobile,
+      role: findAdmin.role,
       token: generateToken(findAdmin._id),
-    });     
+    });
   } else {
-    throw new Error("Invalid Credetials");
+    throw new Error("Invalid Credentials");
   }
 });
 

@@ -7,7 +7,7 @@ const { generateToken } = require("../../config/jwtToken");
 // @route PUT /api/users/register
 // @access Private
 const registerUser = asyncHandler(async (req, res) => {
-  const { id, email, firstname, lastname, mobile, password } = req.body;
+  const { id, email, firstname, lastname, mobile, password, isAdmin } = req.body;
   const findUser = await userModel.findOne({ email });
 
   if (findUser) {
@@ -17,6 +17,8 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   }
 
+  const role = isAdmin ? "admin" : "user"
+
   const newUser = new userModel({
     id: id,
     firstname: firstname,
@@ -24,6 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email: email,
     mobile: mobile,
     password: password,
+    role: role,
   });
 
   await newUser.save();

@@ -7,19 +7,17 @@ require("dotenv").config();
 // @desc Login user
 // @route POST /api/auth/login
 // @access Public
-const login = asyncHandler(async (req, res) => {
-  const { id, email, password } = req.body;
+// User Login
+const userLogin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
   const findUser = await userModel.findOne({ email });
 
   if (findUser && (await findUser.isPasswordMatched(password))) {
-    const refreshToken = await generateRefreshToken(findUser.id);
-    const updateUser = await userModel.findByIdAndUpdate(
-      findUser.id,
-      {
-        refreshToken: refreshToken,
-      },
-      { new: true }
-    );
+    // Generate and set refreshToken (you can implement the generateRefreshToken function)
+    const refreshToken = await generateRefreshToken(findUser._id);
+    findUser.refreshToken = refreshToken;
+    await findUser.save();
+
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       maxAge: 72 * 60 * 60 * 1000,
@@ -27,15 +25,16 @@ const login = asyncHandler(async (req, res) => {
     res.status(200).json({
       success: true,
       id: findUser._id,
-      firstname: findUser?.firstname,
-      lastname: findUser?.lastname,
-      email: findUser?.email,
-      mobile: findUser?.mobile,
-      token: generateToken(findUser?.id),
+      firstname: findUser.firstname,
+      lastname: findUser.lastname,
+      email: findUser.email,
+      mobile: findUser.mobile,
+      role: findUser.role,
+      token: generateToken(findUser._id),
     });
   } else {
     throw new Error("Invalid Credentials");
   }
 });
 
-module.exports = login;
+module.exports = userLogin;

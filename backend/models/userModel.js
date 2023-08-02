@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Address = require("../models/address");
 const Product = require("./productModel");
 const bcrypt = require("bcrypt");
-const { restart } = require("nodemon");
 
 const userSchema = new mongoose.Schema(
   {
@@ -30,7 +29,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      default: "admin",
+      default: "user",
     },
     isBlocked: {
       type: Boolean,
@@ -40,7 +39,9 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    Address: [{ type: mongoose.Schema.Types.ObjectId, ref: Address }],
+    Address: {
+      type: String,
+    },
     wishList: [{ type: mongoose.Schema.Types.ObjectId, ref: Product }],
     refreshToken: {
       type: String,

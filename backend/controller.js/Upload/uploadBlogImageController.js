@@ -1,6 +1,6 @@
 const Blog = require("../../models/blogModel");
 const asyncHandler = require("express-async-handler");
-const cloudinaryUploadImage = require("../../utils/cloudinary");
+const cloudinaryUploadImage = require("../../utils/cloudinaryUploadImage");
 const fs = require("fs");
 
 // @desc Update a user
@@ -9,7 +9,7 @@ const fs = require("fs");
 const uploadImages = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const uploader = (path) => cloudinaryUploadImage(path, "images");
+    const uploader = (path) => cloudinaryUploadImage(path);
     const urls = [];
     const files = req.files;
     for (const file of files) {

@@ -18,7 +18,8 @@ const getAUser = asyncHandler(async (req, res, next) => {
     res.status(200).json({ success: true, getSingleUser });
   } catch (error) {
     // Pass the error to the error handling middleware using next()
-    next(error);
+    // next(error);
+    throw new Error(error)
   }
 });
 

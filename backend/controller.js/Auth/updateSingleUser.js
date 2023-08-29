@@ -1,6 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const userModel = require("../../models/userModel");
-
+const { userModel } = require("../../models/userModel");
 
 // @desc Update a user
 // @route PUT /api/users/:id
@@ -18,14 +17,14 @@ const updateAUser = asyncHandler(async (req, res) => {
       mobile: req.body.mobile,
     };
 
-    const updateAUser = await userModel.findByIdAndUpdate(
-      id,
-      updatedUserData,
-      { new: true }
-    );
+    const updateAUser = await userModel.findByIdAndUpdate(id, updatedUserData, {
+      new: true,
+    });
 
     if (!updateAUser) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     res.status(200).json({ success: true, updateAUser });
